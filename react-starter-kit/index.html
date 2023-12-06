@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+    <head>
+        <title>React-starter-kit</title>
+        <meta charset="utf-8">
+        <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        <div id="root"></div>
+        <script src="./js/movies.js"></script>
+        <script type="text/babel">
+
+            console.log(movies);
+
+
+            let Card = React.createClass({
+                render: () => {
+                    return (
+                        <div>
+                            <h2>{this.props.title}</h2>
+                            <p>{this.props.rating}</p>
+                        </div>
+                    )
+                }
+            });
+            let Movies = React.createClass({
+                render: () => {
+                    return                     
+                    (
+                        <div>
+                            {this.state.movies.map((movie) => {
+                                return (
+                                    <Card title={movie.title} rating={movie.star}></Card>
+                                )
+                            })}   
+                        </div>
+                    )
+                }
+            })
+
+        ReactDOM.render(
+            <Movies />,
+            document.getElementById("root")
+        );
+
+        </script>
+    </body>
+</html>
