@@ -1,51 +1,92 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>React-starter-kit</title>
-        <meta charset="utf-8">
-        <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-        <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <div id="root"></div>
-        <script src="./js/movies.js"></script>
-        <script type="text/babel">
+  <head>
+    <script src="js/react.js"></script>
+    <script src="js/react-dom.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
+  </head>
+  <body>
+    <div id="form"></div>
+    <div id="mydiv"></div>
+    <script src="./js/movies.js"></script>
+    <script type="text/babel">
+    class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-            console.log(movies);
+  handleChange(event) {    this.setState({value: event.target.value});  }
+  handleSubmit(event) {
+    console.log(this.state.value);
+    event.preventDefault();
+  }
 
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
 
-            let Card = React.createClass({
-                render: () => {
-                    return (
-                        <div>
-                            <h2>{this.props.title}</h2>
-                            <p>{this.props.rating}</p>
-                        </div>
-                    )
-                }
-            });
-            let Movies = React.createClass({
-                render: () => {
-                    return                     
-                    (
-                        <div>
-                            {this.state.movies.map((movie) => {
-                                return (
-                                    <Card title={movie.title} rating={movie.star}></Card>
-                                )
-                            })}   
-                        </div>
-                    )
-                }
-            })
+    let Card = React.createClass({
+        render: function(){
+            return (
+                <div className="movie">
+                    <h2>{this.props.movie.title}</h2>
+                    <p>Rating: {this.props.movie.star}/5</p>
+                    <button onClick={this.props.onClick} type="button">Delete</button>
+                </div>
+            )
+        }
+    });
 
+    let Movies = React.createClass({
+        
+        handleClick: function(index){
+            this.state.movies.splice(index, 1);
+                console.log(this);
+                this.setState({ movies: this.state.movies });
+        },  
+
+        getInitialState: function() {
+            return{
+                movies: movies
+            };
+        },
+        render: function(){
+            console.log(this)
+            this.state.movies.map((m) => console.log(m))
+
+            var that = this;
+            return(
+                <div className="movies">
+                    {this.state.movies.map((movie, index) => {
+                        return(
+                            
+                            <Card movie={movie} onClick={this.handleClick.bind(this, index)} key={index} />
+                        )
+                    })}   
+                </div>
+            )
+        }
+    })
         ReactDOM.render(
             <Movies />,
-            document.getElementById("root")
+            document.getElementById("mydiv")
+        );
+        ReactDOM.render(
+            <NameForm />,
+            document.getElementById("form")
         );
 
-        </script>
-    </body>
+    </script>
+
+  </body>
 </html>

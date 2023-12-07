@@ -10,49 +10,36 @@
     <div id="mydiv"></div>
     <script src="./js/movies.js"></script>
     <script type="text/babel">
+        
+class NameForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
 
-    let Card = React.createClass({
-        render: function(){
-            return (
-                <div>
-                    <h2>{this.props.title}</h2>
-                    <p>{this.props.star}</p>
-                </div>
-            )
-        }
-    });
-    let Movies = React.createClass({
-        getInitialState: function() {
-                // Notera att variabeln "albums" kommer från
-                // vår fil `js/albums.js`
-            return {
-                movies: movies
-            };
-        },
-        render: function(){
-            this.state.movies.map((m) => console.log(m))
+  handleChange(event) {    this.setState({value: event.target.value});  }
+  handleSubmit(event) {
+    console.log(this.state.value);
+    event.preventDefault();
+  }
 
-            return(
-                <div className="movies">
-                    {this.state.movies.map((movie, index) => {
-                        return (
-                            <Card title={movie.title} star={movie.star} key={index}></Card>
-                        )
-                    })}   
-                </div>
-            )
-        }
-    })
-        const container = document.getElementById('mydiv');
-        // const root = ReactDOM.createRoot(container);
-        // container.render(<Movies />)
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>        <label>
+          Name:
+          <input type="text" value={this.state.value} onChange={this.handleChange} />        </label>
+        <input type="submit" value="Submit" />
+      </form>
+    );
+  }
+}
 
-        ReactDOM.render(
-            <Movies />,
+ReactDOM.render(
+            <NameForm />,
             document.getElementById("mydiv")
-        );
-
+);
     </script>
-
   </body>
 </html>
