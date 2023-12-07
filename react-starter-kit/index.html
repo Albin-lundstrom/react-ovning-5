@@ -6,29 +6,38 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.23/browser.min.js"></script>
   </head>
   <body>
-    <div id="form"></div>
+    <div>
+        <div id="form"></div>
+        <div id="from-2"></div>
+    </div>
     <div id="mydiv"></div>
     <script src="./js/movies.js"></script>
     <script type="text/babel">
-    class NameForm extends React.Component {
+  class NameForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {value: ''};
+    this.state = {value: '', rating: ''};
+    
     this.handleChange = this.handleChange.bind(this);
+    this.handleChanges = this.handleChanges.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
   handleChange(event) {    this.setState({value: event.target.value});  }
+  handleChanges(event) { this.setState({rating: event.target.rating}); }
   handleSubmit(event) {
-    console.log(this.state.value);
+    console.log(this.state.value +'  '+this.state.rating);
     event.preventDefault();
   }
 
   render() {
+    console.log(this.state.rating)
     return (
       <form onSubmit={this.handleSubmit}>        <label>
-          Name:
-          <input type="text" value={this.state.value} onChange={this.handleChange} />        </label>
+          Name: 
+          <input type="text" value={this.state.value || ''} onChange={this.handleChange} />        </label>
+          <label>
+          Rating: 
+          <input type="text" value={this.state.rating || ''} onChange={this.handleChanges} />        </label>
         <input type="submit" value="Submit" />
       </form>
     );
